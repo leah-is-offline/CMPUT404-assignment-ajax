@@ -22,9 +22,9 @@
 
 
 import flask
-from flask import Flask, request
+from flask import Flask, request, redirect
 import json
-app = Flask(__name__)
+app = Flask(__name__) 
 app.debug = True
 
 # An example world
@@ -61,6 +61,7 @@ myWorld = World()
 
 # I give this to you, this is how you get the raw body/data portion of a post in flask
 # this should come with flask but whatever, it's not my project.
+# thanks - leah
 def flask_post_json():
     '''Ah the joys of frameworks! They do so much work for you
        that they get in the way of sane operation!'''
@@ -74,27 +75,50 @@ def flask_post_json():
 @app.route("/")
 def hello():
     '''Return something coherent here.. perhaps redirect to /static/index.html '''
-    return None
+    #return None
+    status_code = 302
+    return redirect("/static/index.html" , status_code)
 
+#CITATION https://docs.python.org/3/library/json.html (better way to do this?)
 @app.route("/entity/<entity>", methods=['POST','PUT'])
 def update(entity):
     '''update the entities via this interface'''
-    return None
+    #return None
+    raw_post_data = flask_post_json()
+    myWorld.set(entity,raw_post_data)
+    json_str = json.dumps(myWorld.get(entity))
+    status_code = 200
+    return json_str,status_code
+
 
 @app.route("/world", methods=['POST','GET'])    
 def world():
     '''you should probably return the world here'''
-    return None
+    #return None
+   
+    json_str = json.dumps(myWorld.world())
+    status_code = 200
+    return json_str, status_code
+    #TO DO: POST
+    
+    
 
 @app.route("/entity/<entity>")    
 def get_entity(entity):
     '''This is the GET version of the entity interface, return a representation of the entity'''
-    return None
+    #return None
+    json_str = json.dumps(myWorld.get(entity))
+    status_code = 200
+    return json_str,status_code
 
 @app.route("/clear", methods=['POST','GET'])
 def clear():
     '''Clear the world out!'''
-    return None
+    #return None
+    myWorld.clear()
+    json_str = json.dumps(myWorld.world()) 
+    status_code = 200
+    return json_str,status_code 
 
 if __name__ == "__main__":
     app.run()
