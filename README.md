@@ -18,7 +18,7 @@ REFERENCES
 
 https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
 
-https://webmasters.stackexchange.com/questions/31212 difference-between-the-accept-and-content-type-http-headers
+https://webmasters.stackexchange.com/questions/31212/difference-between-the-accept-and-content-type-http-headers
 
 https://www.w3schools.com/xml/xml_http.asp
 
