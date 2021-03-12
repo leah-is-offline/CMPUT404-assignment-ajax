@@ -16,12 +16,20 @@ Generally everything is LICENSE'D under the Apache 2 license by Abram Hindle.
 REFERENCES
 ========================
 
-https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
+To understand context and the Canvas API
+author: Mozilla and individual contributors
+source: https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
 
-https://webmasters.stackexchange.com/questions/31212/difference-between-the-accept-and-content-type-http-headers
+To find out when to use each header type
+authour: Ilmari Karonen
+source: https://webmasters.stackexchange.com/a/31231
 
-https://www.w3schools.com/xml/xml_http.asp
+To understand general format of XMLHttpRequest
+author: w3schools
+source: https://www.w3schools.com/xml/xml_http.asp
 
-https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage
+To figure out how to drawImage on canvas
+author: dylan-lacoursiere
+source: https://stackoverflow.com/a/31464123
 
 
