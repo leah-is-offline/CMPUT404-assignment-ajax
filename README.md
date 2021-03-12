@@ -25,11 +25,15 @@ authour: Ilmari Karonen
 source: https://webmasters.stackexchange.com/a/31231
 
 To understand general format of XMLHttpRequest
-author: w3schools
+author: Refsnes Data
 source: https://www.w3schools.com/xml/xml_http.asp
 
 To figure out how to drawImage on canvas
 author: dylan-lacoursiere
 source: https://stackoverflow.com/a/31464123
+
+To figure out how to mess with json objs
+author: Python Software Foundation
+source: https://docs.python.org/3/library/json.html
 
 

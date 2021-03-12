@@ -79,7 +79,7 @@ def hello():
     status_code = 302
     return redirect("/static/index.html" , status_code)
 
-#CITATION https://docs.python.org/3/library/json.html (better way to do this?)
+#REFERENCE: https://docs.python.org/3/library/json.html 
 @app.route("/entity/<entity>", methods=['POST','PUT'])
 def update(entity):
     '''update the entities via this interface'''
@@ -95,12 +95,9 @@ def update(entity):
 def world():
     '''you should probably return the world here'''
     #return None
-   
     json_str = json.dumps(myWorld.world())
     status_code = 200
     return json_str, status_code
-    #TO DO: POST
-    
     
 
 @app.route("/entity/<entity>")    
