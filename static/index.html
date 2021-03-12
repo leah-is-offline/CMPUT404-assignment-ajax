@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html> 
   <head> 
-    <title>AJAX Assignment</title> 
+    <title>HATS ON COWS</title> 
     <meta charset="utf-8" /> 
     <meta content='width=device-width; height=device-height; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;' name='viewport' />
     <meta name="viewport" content="width=device-width" />
@@ -22,14 +22,31 @@
     "/>
     <script src="json2.js"></script>
   </head> 
+  
   <body bgcolor="black" height="100%" width="100%"> 
-    <canvas id="c" width="100%" height="100%" style="-webkit-tap-highlight-color: transparent;"></canvas> 
+    <div>
+        <h1 style = "color:mediumslateblue; font-size: x-large; text-align: center;">CLICK TO PLACE A HAT</h1>
+        <canvas id="c" width="100%" height="100%" style="-webkit-tap-highlight-color: transparent;"></canvas> 
+        <button style="position: absolute; top:10px; left: 0.5em; bottom: 5px; width: 5em; height: 3em; background-color: mediumslateblue;" onclick="clearCanvas()">New Cows</button>
+        <button style="position: absolute; top:10px; left: 5.5em; bottom: 5px; width: 5em; height: 3em;" onclick="wizardHat()">wizard hat</button>
+        <button style="position: absolute; top:10px; left: 10.5em; bottom: 5px; width: 5em; height: 3em;" onclick="cowboyHat()">cowboy hat</button>
+        <button style="position: absolute; top:10px; left: 15.5em; bottom: 5px; width: 5em; height: 3em;" onclick="partyHat()">party hat</button>
+        <button style="position: absolute; top:10px; left: 20.5em; bottom: 5px; width: 5em; height: 3em;" onclick="tinyHat()">tiny hat</button>
+        <button style="position: absolute; top:10px; left: 25.5em; bottom: 5px; width: 5em; height: 3em;" onclick="santaHat()">santa hat</button>
+    </div>
     <script>
+
 var canvas = document.getElementById('c');
 var host = window.location.host;
 var context = canvas.getContext("2d");
 var W = canvas.width  = window.innerWidth-6;
 var H = canvas.height = window.innerHeight-50;
+
+var background_name = 'cows.png'; //default
+var hat_type = 'wizard_hat.png'; //default
+
+//REFERENCE: https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
+
 
 //REFERENCE: https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/readyState
 function sendJSONXMLHTTPRequest(url, objects, callback) {
@@ -78,19 +95,48 @@ function sendJSONXMLHTTPRequest(url, objects, callback) {
 world = {};
 
 //XXX: TODO Make this prettier!
+//CITATION: https://www.w3schools.com/tags/canvas_arc.asp
 function drawCircle(context,entity) {
     with(context) {
-        beginPath();              
-        lineWidth = 3;
+        var imgObj = new Image();
+        imgObj.src = 'images/' + hat_type;
+
+        beginPath(); 
+        //lineWidth = 0.5;
         var x = entity["x"];
         var y = entity["y"];
         //moveTo(x,y);
-        fillStyle = entity["colour"];
-        strokeStyle = fillStyle;
-        arc(x, y, (entity["radius"])?entity["radius"]:50, 0, 2.0 * Math.PI, false);  
-        stroke();                                
+        //arc(x, y, (entity["radius"])?entity["radius"]:50, 0, 2.0 * Math.PI, false);  
+        //fillStyle = pattern;
+        //strokeStyle = fillStyle;
+        //stroke();  
+        //CITATION: https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage
+        drawImage(
+            imgObj, 
+            x - imgObj.width / 2, 
+            y - imgObj.height / 2, 
+            imgObj.width/4, imgObj.height/4);
+        
+        closePath();
     }
 }
+
+function wizardHat(){
+    hat_type = 'wizard_hat.png'
+}
+function cowboyHat(){
+    hat_type = 'cowboy_hat.png'
+}
+function partyHat(){
+    hat_type = 'party_hat.png'
+}
+function tinyHat(){
+    hat_type = 'tiny_hat.png'
+}
+function santaHat(){
+    hat_type = 'santa_hat.png'
+}
+
 
 function prepEntity(entity) {
     if (!entity["colour"]) {
@@ -105,10 +151,31 @@ function prepEntity(entity) {
 function clearFrame() {
     with(context) {
 	moveTo(0,0);
-	fillStyle = "#000";
-	fillRect(0,0,W,H);
+	//fillStyle = "#000";
+    //fillRect(0,0,W,H);
+    
+    var background = new Image();
+    background.src = 'images/'+ background_name; 
+    drawImage(background, 0, 0,W,H);
     }
+}
 
+
+function clearCanvas(){
+    sendJSONXMLHTTPRequest("/clear" , null, function(empty_world){
+        world = empty_world;
+        }
+    );
+    context.clearRect(0, 0, W, H); //why doesnt it clear hats
+    background_name = getBackgroundName(); //change this global
+}
+
+function getBackgroundName(){
+    background_options = ['cows.png','cows2.png','cows3.png','cows4.png','cows5.png','cows6.png','cows7.png','cows8.png' ]
+    min = Math.ceil(0);
+    max = Math.floor(7);
+    return background_options[Math.floor(Math.random() * (max - min + 1) + min)];
+    
 }
 
 // This actually draws the frame
@@ -116,7 +183,7 @@ function renderFrame() {
     clearFrame();
     for (var key in world) {
         var entity = world[key];
-        drawCircle(context,prepEntity(entity));
+        drawCircle(context,entity);
     }
 }
 
@@ -271,6 +338,7 @@ mouse = (function() {
 mouse.mousedowners.push(function(x,y,clicked,e) {
     addEntityWithoutName({'x':x,'y':y,'colour':'blue'});
 });
+
 
 mouse.mouseuppers.push(function(x,y,clicked,e) {
     addEntityWithoutName({'x':x,'y':y,'colour':'red'});
