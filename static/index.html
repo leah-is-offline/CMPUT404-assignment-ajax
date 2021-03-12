@@ -6,7 +6,9 @@
     <meta content='width=device-width; height=device-height; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;' name='viewport' />
     <meta name="viewport" content="width=device-width" />
     <meta name="license" content="
-        Copyright 2013 Abram Hindle
+        Copyright 2013 Abram Hindle, 
+        2020 Leah Copeland
+
         
         Licensed under the Apache License, Version 2.0 (the "License");
         you may not use this file except in compliance with the License.
@@ -35,7 +37,7 @@
         <button style="position: absolute; top:10px; left: 25.5em; bottom: 5px; width: 5em; height: 3em;" onclick="santaHat()">santa hat</button>
     </div>
     <script>
-
+//REFERENCE: https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
 var canvas = document.getElementById('c');
 var host = window.location.host;
 var context = canvas.getContext("2d");
@@ -45,10 +47,7 @@ var H = canvas.height = window.innerHeight-50;
 var background_name = 'cows.png'; //default
 var hat_type = 'wizard_hat.png'; //default
 
-//REFERENCE: https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
 
-
-//REFERENCE: https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/readyState
 function sendJSONXMLHTTPRequest(url, objects, callback) {
     var xhr = new XMLHttpRequest(); //callback for xhr
     xhr.onreadystatechange = function () {
@@ -67,7 +66,7 @@ function sendJSONXMLHTTPRequest(url, objects, callback) {
             }
         }
     };
-    //CITATION: https://webmasters.stackexchange.com/questions/31212/difference-between-the-accept-and-content-type-http-headers
+    //REFERENCE: https://webmasters.stackexchange.com/questions/31212/difference-between-the-accept-and-content-type-http-headers
     //XXX: POST to a URL
     var method;
     var header;
@@ -82,20 +81,18 @@ function sendJSONXMLHTTPRequest(url, objects, callback) {
         header = "Accept"
         body = null
     }
-    //XXX: set the mimetype and the accept headers!
+    // XXX: set the mimetype and the accept headers!
     // Remember to use application/json !
     var media_type = 'application/json'
-    //CITATION: https://www.w3schools.com/xml/xml_http.asp
+    // REFERENCE: https://www.w3schools.com/xml/xml_http.asp
     xhr.open(method, url)
     xhr.setRequestHeader(header, media_type)
     xhr.send(body)
 }
 
-
 world = {};
 
 //XXX: TODO Make this prettier!
-//CITATION: https://www.w3schools.com/tags/canvas_arc.asp
 function drawCircle(context,entity) {
     with(context) {
         var imgObj = new Image();
@@ -110,7 +107,8 @@ function drawCircle(context,entity) {
         //fillStyle = pattern;
         //strokeStyle = fillStyle;
         //stroke();  
-        //CITATION: https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage
+
+        //REFERENCE: https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage
         drawImage(
             imgObj, 
             x - imgObj.width / 8, 
@@ -166,8 +164,8 @@ function clearCanvas(){
         world = empty_world;
         }
     );
-    context.clearRect(0, 0, W, H); //why doesnt it clear hats
-    background_name = getBackgroundName(); //change this global
+    context.clearRect(0, 0, W, H); 
+    background_name = getBackgroundName(); 
 }
 
 function getBackgroundName(){
@@ -175,7 +173,6 @@ function getBackgroundName(){
     min = Math.ceil(0);
     max = Math.floor(7);
     return background_options[Math.floor(Math.random() * (max - min + 1) + min)];
-    
 }
 
 // This actually draws the frame
@@ -205,7 +202,6 @@ function drawFrame() {
 
 // This is unpleasent, canvas clicks are not handled well
 // So use this code, it works well on multitouch devices as well.
-
 function getPosition(e) {
 	if ( e.targetTouches && e.targetTouches.length > 0) {
 		var touch = e.targetTouches[0];
@@ -225,7 +221,7 @@ function getPosition(e) {
 
 function addEntity(entity, data) {
     world[entity] = data;
-    //drawNextFrame(); // (but should we?) (should check if updated)
+    //drawNextFrame(); // (but should we?) 
     //XXX: Send a XHTML Request that updates the entity you just  modified!
     sendJSONXMLHTTPRequest("/entity/" + entity, data, drawNextFrame)  //PARAMS: url, objects, callback
 }
@@ -358,14 +354,11 @@ function update() {
         drawNextFrame();
         }
     );
-
     drawFrame();
 }
 
 // 30 frames per second
 setInterval( update, 1000/30.0);
-
-
 
     </script>
 </body>
